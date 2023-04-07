@@ -1,7 +1,10 @@
 const router = [
   {
-    path: "home",
-    component: resolve => require(['@/components/HelloWorld'], resolve)
+    path: "/pageOne",
+    component: resolve => require(['@/pages/pageOne'], resolve)
+  }, {
+    path: "/pageTwo",
+    component: resolve => require(['@/pages/pageTwo'], resolve)
   }
 ]
 

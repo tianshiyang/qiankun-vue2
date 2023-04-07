@@ -1,11 +1,7 @@
-// const { defineConfig } = require('@vue/cli-service')
-// module.exports = defineConfig({
-//   transpileDependencies: true,
-
-// })
 const { name } = require('./package');
 module.exports = {
   devServer: {
+    port: 4000,
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
@@ -14,7 +10,7 @@ module.exports = {
     output: {
       library: `${name}-[name]`,
       libraryTarget: 'umd', // 把微应用打包成 umd 库格式
-      // jsonpFunction: `webpackJsonp_${name}`,
+      chunkLoadingGlobal: `webpackJsonp_${name}`
     },
   },
 };

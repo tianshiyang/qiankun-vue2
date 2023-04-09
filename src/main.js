@@ -11,20 +11,17 @@ Vue.use(VueRouter)
 let router = null;
 let instance = null;
 function render(props = {}) {
-  const { container, parentRouter } = props;
+  const { container } = props;
   router = new VueRouter({
-    base: window.__POWERED_BY_QIANKUN__ ? '/vue2/' : '/',
+    base: window.__POWERED_BY_QIANKUN__ ? '/vue2' : '/',
     mode: 'history',
     routes
   });
 
   instance = new Vue({
     router,
-    // store,
     render: (h) => h(App),
   }).$mount(container ? container.querySelector('#app') : '#app');
-
-  Vue.prototype.$parentRouter = parentRouter
 }
 
 // 独立运行时
@@ -40,8 +37,9 @@ export async function mount(props) {
   render(props);
 }
 export async function unmount() {
-  instance.$destroy();
-  instance.$el.innerHTML = '';
-  instance = null;
-  router = null;
+  instance.$destroy?.()
+  // instance._container.innerHTML = ''
+  instance.$el.innerHTML = ''
+  instance = null
+  router = null
 }

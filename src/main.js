@@ -5,6 +5,12 @@ import App from './App.vue';
 import routes from './router';
 // import store from './store';
 
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
+Vue.use(ElementUI);
+
+
 Vue.config.productionTip = false;
 Vue.use(VueRouter)
 
@@ -35,6 +41,7 @@ export async function bootstrap() {
 export async function mount(props) {
   console.log('[vue] props from main framework', props);
   render(props);
+  Vue.prototype.$parentRouter = props.router
 }
 export async function unmount() {
   instance.$destroy?.()

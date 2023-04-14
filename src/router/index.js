@@ -1,6 +1,9 @@
 const router = [
   {
     path: "/pageOne",
+    meta: {
+      keepAlive: true
+    },
     component: resolve => require(['@/pages/pageOne'], resolve)
   }, {
     path: "/pageTwo",

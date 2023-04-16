@@ -4,6 +4,7 @@ import VueRouter from 'vue-router';
 import App from './App.vue';
 import routes from './router';
 // import store from './store';
+import actions from "@/qiankun/actions"
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -17,7 +18,8 @@ Vue.use(VueRouter)
 let router = null;
 let instance = null;
 function render(props = {}) {
-  const { container } = props;
+  const { container, actions: parentActions, router: parentRouter } = props;
+  actions.setActions(parentActions, parentRouter)
   router = new VueRouter({
     base: window.__POWERED_BY_QIANKUN__ ? '/vue2' : '/',
     mode: 'history',
@@ -41,7 +43,6 @@ export async function bootstrap() {
 export async function mount(props) {
   console.log('[vue] props from main framework', props);
   render(props);
-  Vue.prototype.$parentRouter = props.router
 }
 export async function unmount() {
   instance.$destroy?.()

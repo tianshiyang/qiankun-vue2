@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1>父应用Router传递的数据: 姓名: {{ this.routeQuery.name }}, 年龄: {{ this.routeQuery.age }}</h1>
+    <h1>vue2 子应用</h1>
+    <h2 class="parent">主应用中的信息 -> 姓名: {{ state.name }} count：{{ state.count }}</h2>
+    <h2 class="router">Router传递的数据: 姓名: {{ this.routeQuery.name }}, 年龄: {{ this.routeQuery.age }}</h2>
     
     <el-divider></el-divider>
 
@@ -19,13 +21,16 @@
     </el-card>
     
     <el-button-group>
-      <el-button type="primary" @click="goPage2">下一个页面</el-button>
-      <el-button type="primary" @click="goBaseSystem">跳回主系统</el-button>
+      <el-button type="primary" @click="goPage2">页面2</el-button>
+      <el-button type="success" @click="goBaseSystem">主系统</el-button>
+      <el-button type="info" @click="goVue3ChildPro">vue3 子应用</el-button>
+      <el-button type="danger" @click="commitGlobalVuexCount">更改主应用vuex数据</el-button>
     </el-button-group>
   </div>
 </template>
 
 <script>
+import actions from '@/qiankun/actions'
 export default {
   data() {
     return {
@@ -33,13 +38,40 @@ export default {
       formInline: {
         user: "",
         postion: ""
-      }
+      },
+      state: null
     }
   },
   created() {
     this.getRouterQuery()
+    this.initGlobalData()
   },
   methods: {
+    // 初始化全局监听器
+    initGlobalData() {
+      actions.getGlobalState((parentState) => {
+        this.state = parentState
+      })
+
+      actions.onGlobalStateChange((parentState) => {
+        this.state = parentState
+      })
+    },
+    goVue3ChildPro() {
+      actions.parentRouter.push({
+        path: "/vue3/pageOne",
+        query: {
+          name: "吴久",
+          age: 122
+        }
+      })
+    },
+    commitGlobalVuexCount() {
+      actions.setGlobalState({
+        name: "赵六",
+        count: this.state.count + 5
+      })
+    },
     getRouterQuery() {
       this.routeQuery = this.$route.query || {}
     },
@@ -50,7 +82,7 @@ export default {
     },
     goBaseSystem() {
       // 这里使用项目父应用的router进行跳转
-      this.$parentRouter.push({
+      actions.parentRouter.push({
         path: "/qiankun-home",
         query: {
           status: 1,
@@ -61,3 +93,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.parent {
+  color: red
+}
+.router {
+  color: rgb(12, 157, 109);
+}
+</style>

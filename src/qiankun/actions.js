@@ -8,8 +8,9 @@ class Actions {
   actions = {
       onGlobalStateChange: emptyAction,
       setGlobalState: emptyAction,
-      getGlobalState: emptyAction
+      offGlobalStateChange: emptyAction
   };
+  parentRouter = emptyAction
 
   /**
    * 设置 actions
@@ -26,9 +27,10 @@ class Actions {
       return this.actions.onGlobalStateChange(...arguments);
   }
 
-  getGlobalState() {
-    return this.actions.getGlobalState(...arguments)
+  offGlobalStateChange() {
+    return this.actions.offGlobalStateChange(...arguments)
   }
+
 
   /**
    * 映射

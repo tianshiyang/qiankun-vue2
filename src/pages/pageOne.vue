@@ -49,13 +49,10 @@ export default {
   methods: {
     // 初始化全局监听器
     initGlobalData() {
-      actions.getGlobalState((parentState) => {
-        this.state = parentState
-      })
 
       actions.onGlobalStateChange((parentState) => {
         this.state = parentState
-      })
+      }, true)
     },
     goVue3ChildPro() {
       actions.parentRouter.push({

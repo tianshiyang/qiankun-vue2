@@ -18,7 +18,17 @@ Vue.use(VueRouter)
 let router = null;
 let instance = null;
 function render(props = {}) {
-  const { container, actions: parentActions, router: parentRouter } = props;
+  const { container, 
+    onGlobalStateChange, 
+    setGlobalState, 
+    offGlobalStateChange, 
+    router: parentRouter } = props;
+
+  const parentActions = {
+    onGlobalStateChange,
+    setGlobalState,
+    offGlobalStateChange
+  }
   actions.setActions(parentActions, parentRouter)
   router = new VueRouter({
     base: window.__POWERED_BY_QIANKUN__ ? '/vue2' : '/',
